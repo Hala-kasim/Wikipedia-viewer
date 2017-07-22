@@ -1,0 +1,105 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Build a wikipedia viewer</title>
+<style>
+	body {
+  background: #008080;
+}
+.search-window {
+  text-align: center;
+  margin: 200px auto;
+  color: #fff;
+}
+a {
+  color: #fff;
+  text-decoration: none;
+}
+ .search-icon {
+  margin: auto;
+  font-size: 50px;
+  color: orange;
+} 
+/* input {
+  background: #008080;
+  border-radius: 40px;
+  height: 30px;
+  border: 5px solid orange;
+  padding: 5px;
+  margin: auto;
+  display: none;
+} */
+button {
+  display: none;
+  margin: auto;
+  margin-top: 20px;
+} 
+.random {
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+.icon {
+   font-size: 20px;
+  margin-top: 40px;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/g/jquery@2.2.4,bootstrap@3.3.6,mark.js@8.6.0(jquery.mark.min.js)"></script>
+</head>
+<body>
+	<div class="search-window">
+  <p class="random"><a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Click here to get random article</a></p>
+  <div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
+
+  <button>search</button>
+  <p class="icon">Click icon to search</p>
+  <div class="result"></div>
+</div>
+<script>
+	$(document).ready(function(){
+ 
+  $(".search-icon").on("click", function(){
+  $(this).replaceWith("<input type='text' style='background: #008080;border-radius:10px;height: 30px;border: 5px solid orange;padding: 5px;'>");
+ $("button").css("display","block");
+    $(".icon").css("display","none");
+  });
+  
+   $("button").on("click", function() { 
+  var inputSearch = $("input").val();
+    console.log(inputSearch);
+    var remoteUrlWithOrigin = "https://en.wikipedia.org/w/api.php"; + inputSearch;
+    var queryData = {
+  action:"opensearch",
+  format:"json",
+  origin:"*",
+  search:"Bridge"
+}
+$.ajax( {
+    url: remoteUrlWithOrigin,
+    data: queryData,
+    dataType: 'json',
+    type: 'GET',
+    headers: { 'Api-User-Agent': 'Example/1.0' },
+    success: function(data) {
+      console.log(data);
+      $(".result").html(""); //to clear the result each time.
+      
+      // To get heading data[1][0];
+      // To get content data[2][0];
+      // To get link data[3][0];
+      
+      // make loop through the heading data to get all the data:-
+      for(i = 0; i < data[1].length; i++) {
+        $("result").append("<div><a href=' + data[3][i] + '><h3>' + data[1][i] + '</h3>' + '<p>' + data[2][i] + '</p></a></div>")
+      }
+    }
+});
+    });
+ 
+
+});
+
+</script>
+</body>
+</html>
