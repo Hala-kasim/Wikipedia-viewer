@@ -45,19 +45,20 @@ button {
   margin-top: 40px;
 }
 </style>
-<script src="https://cdn.jsdelivr.net/g/jquery@2.2.4,bootstrap@3.3.6,mark.js@8.6.0(jquery.mark.min.js)"></script>
 </head>
 <body>
-	<div class="search-window">
+<div class="search-window">
   <p class="random"><a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Click here to get random article</a></p>
   <div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
-
+<!--   <input type="text" value=""> -->
   <button>search</button>
   <p class="icon">Click icon to search</p>
   <div class="result"></div>
 </div>
+<!-- <script type="text/javascript" src="new/pligin3.js"></script> -->
+<script src="https://cdn.jsdelivr.net/g/jquery@2.2.4,bootstrap@3.3.6,mark.js@8.6.0(jquery.mark.min.js)"></script>
 <script>
-	$(document).ready(function(){
+$(document).ready(function(){
  
   $(".search-icon").on("click", function(){
   $(this).replaceWith("<input type='text' style='background: #008080;border-radius:10px;height: 30px;border: 5px solid orange;padding: 5px;'>");
@@ -68,13 +69,16 @@ button {
    $("button").on("click", function() { 
   var inputSearch = $("input").val();
     console.log(inputSearch);
-    var remoteUrlWithOrigin = "https://en.wikipedia.org/w/api.php"; + inputSearch;
-    var queryData = {
+    var remoteUrlWithOrigin = "https://en.wikipedia.org/w/api.php" ;
+var queryData = {
   action:"opensearch",
   format:"json",
   origin:"*",
-  search:"Bridge"
+  // search:""
+  search: inputSearch
 }
+//queryData.search = inputSearch;
+
 $.ajax( {
     url: remoteUrlWithOrigin,
     data: queryData,
@@ -91,7 +95,7 @@ $.ajax( {
       
       // make loop through the heading data to get all the data:-
       for(i = 0; i < data[1].length; i++) {
-        $("result").append("<div><a href=' + data[3][i] + '><h3>' + data[1][i] + '</h3>' + '<p>' + data[2][i] + '</p></a></div>")
+          $(".result").append("<div><a href='" + data[3][i] + " target='_blank''><h3>'" + data[1][i] + "</h3><p>" + data[2][i] + "</p></a></div>");
       }
     }
 });
@@ -99,6 +103,7 @@ $.ajax( {
  
 
 });
+
 
 </script>
 </body>
